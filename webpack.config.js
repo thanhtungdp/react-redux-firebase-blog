@@ -1,11 +1,9 @@
 var webpack = require('webpack');
 
 var config = {
-    entry: [
-        './app/App.js'
-    ],
+    entry: __dirname + '/app/App.js',
     output: {
-        path: __dirname,
+        path: __dirname + '/public',
         filename: "bundle.js"
     },
     module: {
@@ -37,6 +35,7 @@ if (process.env.NODE_ENV === 'production') {
             'process.env': {NODE_ENV: JSON.stringify('production')}
         })
     ];
-};
+}
+;
 
 module.exports = config;

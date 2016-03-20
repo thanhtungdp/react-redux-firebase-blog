@@ -5,7 +5,7 @@ class Hello extends React.Component {
     render() {
         var place = "Thanh Tung";
         return (
-            <h1>Hello World {place}</h1>
+            <h1>Hello baby ád World {place}</h1>
         );
     }
 }
