@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/thanhtungdp/react-starter#readme",
   "dependencies": {
+    "fbemitter": "^2.0.2",
+    "flux": "^2.1.1",
     "react": "^0.14.7",
     "react-dom": "^0.14.7"
   },
