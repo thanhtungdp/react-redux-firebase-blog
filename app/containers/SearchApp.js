@@ -16,7 +16,7 @@ class SearchApp extends Component {
                             <div className="col-md-6 col-md-offset-3 search-bar-content">
                                 <h1>Search adsda giờ c lâu thấy bà kkadk kjad k kjads k jsd kadjas kad j
                                     skadon 500px hello baby</h1>
-                                <SearchInput actions={actions} status={this.props.status} search={this.props.search}/>
+                                <SearchInput actions={actions} status={this.props.status} search={this.props.search} dispatch={this.props.dispatch}/>
                             </div>
                         </div>
                     </div>

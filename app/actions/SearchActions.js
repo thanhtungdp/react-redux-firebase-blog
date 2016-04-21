@@ -1,25 +1,41 @@
-import * as types from '../constants/SearchActionTypes';
 import photoSearch from '../api/PhotoSearch';
+
+export const SEARCH_PENDING = 'SEARCH_PENDING';
+export const SEARCH_PENDING_FOR_NEXT = 'SEARCH_PENDING_FOR_TEXT';
+export const SEARCH_DONE = 'SEARCH_DONE';
+export const IDLE = 'IDLE';
+
+export function searchPendingNext(page) {
+    return {
+        type: SEARCH_PENDING_FOR_NEXT
+    }
+}
+
+export function searchPending(keyword) {
+    return {
+        type: SEARCH_PENDING
+    }
+}
+
+export function searchDone(keyword, photos, page) {
+    return {
+        type: SEARCH_DONE,
+        keyword,
+        photos,
+        page
+    }
+}
 
 function searchWithPhotoAPI(keyword, page, dispatch) {
     if (page >= 2) {
-        dispatch({
-            type: types.SEARCH_PENDING_FOR_NEXT
-        });
+        dispatch(searchPendingNext());
     }
     else {
-        dispatch({
-            type: types.SEARCH_PENDING
-        });
+        dispatch(searchPending());
     }
 
-    photoSearch(keyword, page, (data)=> {
-        dispatch({
-            type: types.SEARCH_DONE,
-            photos: data.photos,
-            page,
-            keyword
-        });
+    photoSearch(keyword, page).then((data)=> {
+        dispatch(searchDone(keyword, data.photos, page));
     });
 }
 

@@ -1,24 +1,30 @@
 import React,{Component, PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 import {hashHistory} from 'react-router';
+import {searchPhotoAction} from '../actions/SearchActions';
 
 export default class SearchInput extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     searchPhoto(value) {
-        if(this.props.status!="FETCHING") {
-            this.props.actions.searchPhotoAction(value);
+        if (this.props.status != "FETCHING") {
+            this.props.dispatch(searchPhotoAction(value));
             document.getElementById('header').style.animationPlayState = 'running';
         }
     }
 
-    componentWillUpdate(nextProps){
-        if(this.props.search != nextProps.search){
+    componentWillUpdate(nextProps) {
+        if (this.props.search != nextProps.search) {
             this.searchPhoto(nextProps.search);
+            let search = nextProps.search ? nextProps.search : '';
+            this.refs.keyword.value = search;
         }
     }
 
-    componentDidMount(){
-        if(this.props.search){
+    componentDidMount() {
+        if (this.props.search) {
             this.searchPhoto(this.props.search);
         }
     }
