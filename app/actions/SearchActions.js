@@ -4,6 +4,7 @@ export const SEARCH_PENDING = 'SEARCH_PENDING';
 export const SEARCH_PENDING_FOR_NEXT = 'SEARCH_PENDING_FOR_TEXT';
 export const SEARCH_DONE = 'SEARCH_DONE';
 export const IDLE = 'IDLE';
+export const IDEA2 = 'ABC';
 
 export function searchPendingNext(page) {
     return {

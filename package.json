@@ -24,6 +24,7 @@
     "classnames": "^2.2.3",
     "fbemitter": "^2.0.2",
     "file-loader": "^0.8.5",
+    "firebase": "^2.4.2",
     "flux": "^2.1.1",
     "font-awesome": "^4.5.0",
     "icheck": "^1.0.2",
@@ -31,6 +32,7 @@
     "react": "^0.14.7",
     "react-addons-css-transition-group": "^0.14.8",
     "react-addons-update": "^0.14.8",
+    "react-bootstrap": "^0.29.1",
     "react-dom": "^0.14.7",
     "react-icheck": "^0.2.2",
     "react-redux": "^4.4.1",
@@ -41,6 +43,7 @@
     "redux-saga": "^0.9.5",
     "redux-thunk": "^2.0.1",
     "url-loader": "^0.5.7",
+    "validator": "^5.2.0",
     "whatwg-fetch": "^0.11.0"
   },
   "devDependencies": {
