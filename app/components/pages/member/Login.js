@@ -1,5 +1,5 @@
 import React,{PropTypes} from 'react';
-import Auth from '../../../api/auth/index'
+import Auth from '../../../api/auth/index';
 import InputText from '../../form/InputText';
 import {Form, Button, Grid, Col} from 'react-bootstrap';
 import Validator from 'validator';
@@ -7,6 +7,7 @@ import Validator from 'validator';
 export default class Login extends React.Component {
     onSubmit(e) {
         e.preventDefault();
+        console.log(this.state.email + ' - ' + this.state.password);
         this.props.actionLogin(this.state.email, this.state.password);
     }
 
@@ -15,15 +16,16 @@ export default class Login extends React.Component {
     }
 
     render() {
+        let {guest, loginStatus} = this.props;
         return (
             <Grid>
                 <Col md={6} mdOffset={3}>
                     <form onSubmit={this.onSubmit.bind(this)}>
                         <InputText title="Email" type="email" onChange={this.updateInput.bind(this,'email')}/>
                         <InputText title="Password" type="password" onChange={this.updateInput.bind(this,'password')}/>
-                        {this.props.auth.isFetching && <div>Is loging ...</div>}
-                        {this.props.auth.error && <div>{this.props.auth.error}</div>}
-                        {this.props.auth.isAuthenticated && <div className="alert alert-success">
+                        {loginStatus.isFetching && <div>Is loging ...</div>}
+                        {loginStatus.error && <div>{loginStatus.error}</div>}
+                        {!guest && <div className="alert alert-success">
                             Login success
                         </div>}
                         <Button bsStyle="primary" type="submit">Login</Button>
@@ -36,5 +38,6 @@ export default class Login extends React.Component {
 
 Login.propTypes = {
     actionLogin: PropTypes.func.isRequired,
-    isFetching: PropTypes.bool
+    loginStatus: PropTypes.object.isRequired,
+    guest: PropTypes.bool
 }

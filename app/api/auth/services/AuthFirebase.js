@@ -19,6 +19,14 @@ export default class AuthFirebase {
         return promise;
     }
 
+    cleanUser(user) {
+        return {
+            email: user.password.email,
+            token: user.token,
+            uid: user.uid
+        }
+    }
+
     login(email, password) {
         let promise = new Promise(function (resolve, reject) {
             firebase.authWithPassword({email: email, password: password}, function (err, user) {
@@ -26,8 +34,7 @@ export default class AuthFirebase {
                     reject(err);
                 }
                 else {
-                    resolve(user);
-                    this.user = user;
+                    resolve(this.cleanUser(user));
                 }
             }.bind(this));
         }.bind(this));
@@ -38,22 +45,22 @@ export default class AuthFirebase {
         let user = firebase.getAuth();
         let promise = new Promise(function (resolve, reject) {
             if (user) {
-                resolve(user);
+                resolve(this.cleanUser(user));
             }
-            else reject();
+            else reject('not auth token');
         }.bind(this));
         return promise;
     }
 
     logout() {
-        return new Promise(function(relsove, reject){
+        return new Promise(function (relsove, reject) {
             firebase.unauth();
             relsove();
         })
     }
 
-    updateProfile(profile = {}) {
-        let userProfile = firebase.child('users').child(this.user.uid);
+    updateProfile(profile = {}, uid) {
+        let userProfile = firebase.child('users').child(uid);
         let promise = new Promise(function (resolve, reject) {
             userProfile.set(profile, function (err) {
                 if (err) {

@@ -6,22 +6,16 @@ import {hashHistory} from 'react-router';
 class Logout extends React.Component {
     constructor(props) {
         super(props);
-        //console.log(this.props);
         this.props.dispatch(authLogout());
-
     }
 
     componentWillMount() {
         if (!this.props.isFetching) {
-            //hashHistory.push('/login');
         }
     }
 
     componentWillReceiveProps(nextProps) {
         console.log('update');
-        /*if (!nextProps.isFetching) {
-            hashHistory.push('/login');
-        }*/
     }
 
     render() {

@@ -1,5 +1,13 @@
 import Auth from '../api/auth/index';
 
+localStorage.setItem('hello',{a: 'tung',b:'tien'});
+
+Auth.isAuthenticated().then((user)=>{
+    console.log(user);
+}).catch((error)=>{
+    console.log(error);
+});
+
 //userLogin('tungptkh@gmail.com','123456').then(function(user){
 //    console.log(user);
 //}).catch(function(err){

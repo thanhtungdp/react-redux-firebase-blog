@@ -1,55 +1,79 @@
 import React from 'react';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {pushState, hashHistory} from 'react-router';
-import {isAuthenticated} from '../actions/AuthAction';
+import {checkToken} from '../actions/AuthAction';
 import Auth from '../../api/auth/index';
 
-export function requireAuth(Component, notAuthenticated = true, redirect = '/login') {
+export const REDIRECT_IF_GUEST = 'redirect if guest';
+export const REDIRECT_IF_AUTHENTICATED = 'redirect if authenticated';
+
+/**
+ * Require auth (redirect if authenticated, or not authenticated)
+ * @param Component | React Component
+ * @param redirectIfNotAuthenticated | = true => redirect if not auth | false => redirect if atuh
+ * @param redirect | link redirect if not match Authenticated check
+ * @returns {*}
+ */
+export function requireAuth(Component, redirectCheck = REDIRECT_IF_GUEST, redirect = '/login') {
     class AuthenticatedComponent extends React.Component {
         constructor() {
             super(...arguments);
+            this.checkTokenInterval = '';
         }
 
-        checkAuth(isAuthenticated) {
-            if (notAuthenticated) {
-                // Redirect if not authoried
-                if (!isAuthenticated) {
-                    let redirectAfterLogin = this.props.location.pathname;
-                    hashHistory.push(`${redirect}?next=${redirectAfterLogin}`);
-                }
-            }
-            else {
-                // redirect if authorized
-                if (isAuthenticated) {
-                    console.log(this.props);
-                    let nextUrl = this.props.location.query.next;
-                    if (nextUrl) {
-                        redirect = nextUrl;
+        checkAuth(guest) {
+            switch (redirectCheck) {
+                case REDIRECT_IF_GUEST:
+                    if (guest) {
+                        let redirectAfterLogin = this.props.location.pathname;
+                        hashHistory.push(`${redirect}?next=${redirectAfterLogin}`);
                     }
-                    hashHistory.push(redirect);
-                }
+                    break;
+                case REDIRECT_IF_AUTHENTICATED:
+                    if (!guest) {
+                        let nextUrl = this.props.location.query.next;
+                        if (nextUrl) {
+                            redirect = nextUrl;
+                        }
+                        hashHistory.push(redirect);
+                    }
             }
-        }
-
-        componentWillMount() {
-            this.checkAuth(this.props.isAuthenticated);
-        }
-
-        componentWillReceiveProps(nextProps) {
-            this.checkAuth(this.props.isAuthenticated);
         }
 
         componentDidUpdate() {
-            this.checkAuth(this.props.isAuthenticated);
+            this.checkAuth(this.props.guest);
+        }
+
+        componentDidMount() {
+            this.props.actions.checkToken();
+            switch (redirectCheck) {
+                case REDIRECT_IF_GUEST:
+                    this.checkTokenInterval = window.setInterval(()=> {
+                        this.props.actions.checkToken();
+                        console.log(redirectCheck);
+                    }, 5000);
+                    break;
+            }
+        }
+
+        componentWillUnmount() {
+            switch (redirectCheck) {
+                case REDIRECT_IF_GUEST:
+                    window.clearInterval(this.checkTokenInterval);
+                    break;
+            }
         }
 
         render() {
             let component;
-            if (notAuthenticated) {
-                component = this.props.isAuthenticated ? <Component {...this.props}/> : null;
-            }
-            else {
-                component = !this.props.isAuthenticated ? <Component {...this.props}/> : null
+            switch (redirectCheck) {
+                case REDIRECT_IF_GUEST:
+                    component = !this.props.guest ? <Component {...this.props}/> : null;
+                    break;
+                case REDIRECT_IF_AUTHENTICATED:
+                    component = this.props.guest ? <Component {...this.props}/> : null;
+                    break;
             }
             return (
                 <div>
@@ -60,16 +84,21 @@ export function requireAuth(Component, notAuthenticated = true, redirect = '/log
     }
 
     const mapStateToProps = (state)=>({
-        isAuthenticated: state.auth.isAuthenticated,
+        tokenFetching: state.auth.token.isFetching,
+        guest: state.auth.authenticated.guest
     });
 
-    return connect(mapStateToProps)(AuthenticatedComponent);
+    const mapDispatchToProps = (dispatch)=>({
+        actions: bindActionCreators({checkToken: checkToken}, dispatch)
+    })
+
+    return connect(mapStateToProps, mapDispatchToProps)(AuthenticatedComponent);
 }
 
-export function redirectIfNotAuthenticated(Component, redirect = "/login") {
-    return requireAuth(Component, true, redirect)
+export function redirectIfGuest(Component, redirect = "/login") {
+    return requireAuth(Component, REDIRECT_IF_GUEST, redirect)
 }
 
 export function redirectIfAuthenticated(Component, redirect = "/") {
-    return requireAuth(Component, false, redirect);
+    return requireAuth(Component, REDIRECT_IF_AUTHENTICATED, redirect);
 }

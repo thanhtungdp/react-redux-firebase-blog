@@ -8,7 +8,7 @@ class LoginContainer extends React.Component {
     render() {
         return (
             <div>
-                <Login actionLogin={this.props.actions.actionLogin} auth={this.props.auth} />
+                <Login actionLogin={this.props.actions.actionLogin} guest={this.props.guest} loginStatus={this.props.loginStatus} />
             </div>
         )
     }
@@ -16,7 +16,8 @@ class LoginContainer extends React.Component {
 
 const mapStateToProps = (state)=> {
     return {
-        auth: state.auth
+        guest: state.auth.authenticated.guest,
+        loginStatus: state.auth.login
     }
 }
 
