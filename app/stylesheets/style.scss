@@ -1,3 +1,4 @@
+@import "richText";
 body
 {
     font-family: 'Roboto', sans-serif;
@@ -121,7 +122,7 @@ div.form-group > input.form-control.input-lg:focus
     }
     to
     {
-        transform: rotate(360deg);
+        transform: rotate(360deg)
     }
 }
 

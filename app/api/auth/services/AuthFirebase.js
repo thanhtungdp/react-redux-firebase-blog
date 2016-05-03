@@ -73,4 +73,17 @@ export default class AuthFirebase {
         });
         return promise;
     }
+
+    getProfile(uid) {
+        let userProfile = firebase.child('users').child(uid);
+        let promise = new Promise(function (resolve, reject) {
+            userProfile.on("value", (snapshot)=> {
+                let profile = snapshot.val();
+                resolve(profile);
+            }, (error)=> {
+                reject(error);
+            });
+        });
+        return promise;
+    }
 }

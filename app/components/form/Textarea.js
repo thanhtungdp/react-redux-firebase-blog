@@ -1,9 +1,8 @@
 import React,{Component, PropTypes} from 'react';
-import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import ValidateWrapControl from './ValidateWrapControl';
-import validator from 'validator';
+import {FormControl} from 'react-bootstrap';
 
-export default class InputText extends Component {
+export default class Textarea extends Component {
     constructor(props) {
         super(props);
     }
@@ -11,7 +10,7 @@ export default class InputText extends Component {
     render() {
         return (
             <ValidateWrapControl {...this.props}>
-                <FormControl {...this.props}/>
+                <FormControl componentClass="textarea" {...this.props}/>
             </ValidateWrapControl>
         )
     }

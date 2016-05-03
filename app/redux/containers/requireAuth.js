@@ -15,7 +15,7 @@ export const REDIRECT_IF_AUTHENTICATED = 'redirect if authenticated';
  * @param redirect | link redirect if not match Authenticated check
  * @returns {*}
  */
-export function requireAuth(Component, redirectCheck = REDIRECT_IF_GUEST, redirect = '/login') {
+export function requireAuth(Component, redirectCheck = REDIRECT_IF_GUEST, redirect = '/auth/login') {
     class AuthenticatedComponent extends React.Component {
         constructor() {
             super(...arguments);
@@ -47,14 +47,14 @@ export function requireAuth(Component, redirectCheck = REDIRECT_IF_GUEST, redire
 
         componentDidMount() {
             this.props.actions.checkToken();
-            switch (redirectCheck) {
-                case REDIRECT_IF_GUEST:
-                    this.checkTokenInterval = window.setInterval(()=> {
-                        this.props.actions.checkToken();
-                        console.log(redirectCheck);
-                    }, 5000);
-                    break;
-            }
+            //switch (redirectCheck) {
+            //    case REDIRECT_IF_GUEST:
+            //        /*this.checkTokenInterval = window.setInterval(()=> {
+            //            this.props.actions.checkToken();
+            //            console.log(redirectCheck);
+            //        }, 5000);*/
+            //        break;
+            //}
         }
 
         componentWillUnmount() {
@@ -95,7 +95,7 @@ export function requireAuth(Component, redirectCheck = REDIRECT_IF_GUEST, redire
     return connect(mapStateToProps, mapDispatchToProps)(AuthenticatedComponent);
 }
 
-export function redirectIfGuest(Component, redirect = "/login") {
+export function redirectIfGuest(Component, redirect = "/auth/login") {
     return requireAuth(Component, REDIRECT_IF_GUEST, redirect)
 }
 

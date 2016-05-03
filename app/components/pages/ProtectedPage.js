@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Grid, Col} from 'react-bootstrap';
 
 export default class ProtectedPage extends Component {
     constructor() {
@@ -7,9 +8,11 @@ export default class ProtectedPage extends Component {
 
     render() {
         return (
-            <div>
-                <h4>Protected page</h4>
-            </div>
+            <Grid>
+                <Col md={6} mdOffset={3}>
+                    <h4>Protected page</h4>
+                </Col>
+            </Grid>
         )
     }
 }

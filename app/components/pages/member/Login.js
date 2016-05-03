@@ -1,34 +1,24 @@
 import React,{PropTypes} from 'react';
-import Auth from '../../../api/auth/index';
-import InputText from '../../form/InputText';
 import {Form, Button, Grid, Col} from 'react-bootstrap';
 import Validator from 'validator';
+import {InputText} from '../../form/index';
 
 export default class Login extends React.Component {
-    onSubmit(e) {
-        e.preventDefault();
-        console.log(this.state.email + ' - ' + this.state.password);
-        this.props.actionLogin(this.state.email, this.state.password);
-    }
-
-    updateInput(key, value) {
-        this.setState({[key]: value});
+    onSubmit() {
+        this.props.actionLogin(this.props.fields.email.value, this.props.fields.password.value);
     }
 
     render() {
-        let {guest, loginStatus} = this.props;
+        let {fields:{email, password}, guest, loginStatus, handleSubmit} = this.props;
         return (
             <Grid>
                 <Col md={6} mdOffset={3}>
-                    <form onSubmit={this.onSubmit.bind(this)}>
-                        <InputText title="Email" type="email" onChange={this.updateInput.bind(this,'email')}/>
-                        <InputText title="Password" type="password" onChange={this.updateInput.bind(this,'password')}/>
+                    <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+                        <InputText title="Email" type="text" {...email}/>
+                        <InputText title="Password" type="password" {...password}/>
                         {loginStatus.isFetching && <div>Is loging ...</div>}
                         {loginStatus.error && <div>{loginStatus.error}</div>}
-                        {!guest && <div className="alert alert-success">
-                            Login success
-                        </div>}
-                        <Button bsStyle="primary" type="submit">Login</Button>
+                        <Button bsStyle="primary" type="submit" disabled={loginStatus.isFetching}>Login</Button>
                     </form>
                 </Col>
             </Grid>
