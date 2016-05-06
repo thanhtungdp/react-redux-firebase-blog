@@ -8,6 +8,7 @@ This project is a simple blog using React, Redux & Firebase.
 ## Demo online
 [http://react-redux-blog.firebaseapp.com/](http://react-redux-blog.firebaseapp.com/)
 Demo:
+
 ![demo gif]
 [demo]
 [demo]: https://media.giphy.com/media/l396NAqYcOiPewcs8/giphy.gif
