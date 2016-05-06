@@ -13,6 +13,10 @@ Demo:
 [demo]
 [demo]: https://media.giphy.com/media/l396NAqYcOiPewcs8/giphy.gif
 
+## Starter kit
+* [React redux starter kit](http://github.com/thanhtungdp/redux-500)
+
+
 ## About
 Using technologies:
 * [React](https://github.com/facebook/react)
@@ -26,6 +30,8 @@ Using technologies:
 * [Redux Dev Tools Extensions](https://github.com/zalmoxisus/redux-devtools-extension) for next generation DX (developer experience).
 * [React redux starter kit](http://github.com/thanhtungdp/redux-500)
 * [Redux-await](https://github.com/kolodny/redux-await) - Manage async redux actions sanely
+* [Redux Form](http://redux-form.com) Form validate
+* [Draft.js](draftjs.org) Text Editor
 * [React-bootstrap](https://react-bootstrap.github.io/) Bootstrap component
 * [React Masonry](https://github.com/eiriklv/react-masonry-component)
 * [Bootstrap-sass](https://github.com/twbs/bootstrap-sass) import scss to app
