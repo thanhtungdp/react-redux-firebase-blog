@@ -17,7 +17,7 @@ export default class Register extends React.Component {
         const {awaitStatuses, awaitErrors, handleSubmit, submitting}= this.props;
         const {email, first_name, last_name, password, re_password} = this.props.fields;
         return (
-            <WrapContainer>
+            <WrapContainer animateIn="fadeIn">
                 <h1 className="title"><i className="icon-user-follow"></i> Register</h1>
                 <form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="form">
                     <InputText type="text" title="Email" placeholder="Email" {...email}/>

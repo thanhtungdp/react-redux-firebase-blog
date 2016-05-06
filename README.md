@@ -4,6 +4,7 @@ This project is a simple blog using React, Redux & Firebase.
 * Create and Edit Post
 * View Posts List
 * View Post
+
 ## Demo online
 [http://react-redux-blog.firebaseapp.com/](http://react-redux-blog.firebaseapp.com/)
 Demo:

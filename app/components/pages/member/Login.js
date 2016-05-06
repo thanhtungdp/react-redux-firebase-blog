@@ -10,7 +10,7 @@ export default class Login extends React.Component {
     render() {
         let {fields:{email, password},awaitStatuses, awaitErrors, handleSubmit} = this.props;
         return (
-            <WrapContainer>
+            <WrapContainer animateIn="fadeIn">
                 <Col md={8} mdOffset={2}>
                     <h1 className="title">Login</h1>
                     <form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="form">
