@@ -18,8 +18,10 @@ export default class Header extends Component {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav>
-                            <NavItem eventKey={4} href="#/posts"><i className="icon-notebook"></i> Posts</NavItem>
-                            <NavItem eventKey={4} href="#/posts/create"><i className="icon-plus"></i> New post</NavItem>
+                            <NavItem eventKey={4} href="#/posts"><i className="icon-notebook"/> Posts</NavItem>
+                            <NavItem eventKey={4} href="#/posts/create"><i className="icon-plus"/> New post</NavItem>
+                            <NavItem eventKey={4} href="https://github.com/thanhtungdp/react-redux-firebase-blog"><i className="fa fa-github"/> Github</NavItem>
+                            <NavItem eventKey={4} href="https://github.com/thanhtungdp/redux-500api"><i className="icon-layers"/> Starter kit</NavItem>
                         </Nav>
                         { guest ?
                             <Nav pullRight>

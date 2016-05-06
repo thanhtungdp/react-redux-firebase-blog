@@ -22,7 +22,7 @@ export default class Profile extends Component {
         return (
             <WrapContainer animateIn="fadeIn">
                 <h1 className="title">Profile</h1>
-                {awaitStatuses.getProfile == 'pending' && <Loading text="Profile is getting"/>}
+                {awaitStatuses.getProfile == 'pending' && <Loading text="Profile is loading"/>}
                 {awaitStatuses.getProfile == 'success' &&
                 <form className="form" onSubmit={handleSubmit(this.onSumbit.bind(this))}>
                     <InputText title="First name" placeholder="First name" {...first_name}/>

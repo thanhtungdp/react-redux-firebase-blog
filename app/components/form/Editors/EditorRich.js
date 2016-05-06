@@ -9,13 +9,40 @@ import {
 } from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
 
+const HANDLE_LINK = /\http:\/\/(?:\[[^\]]+\]|\S+)/g;
+
+function handleLink(contentBlock, callback) {
+    findWithRegex(HANDLE_LINK, contentBlock, callback);
+}
+
+const HandleLinkSpan = (props) => {
+    let href = props.children[0].props.text;
+    return <a href={href}>{props.children}</a>
+}
+
+
+function findWithRegex(regex, contentBlock, callback) {
+    const text = contentBlock.getText();
+    let matchArr, start;
+    while ((matchArr = regex.exec(text)) !== null) {
+        start = matchArr.index;
+        callback(start, start + matchArr[0].length);
+    }
+}
 
 export default class EditorRich extends React.Component {
     constructor(props) {
         super(props);
 
+        this.decorator = new CompositeDecorator([
+            {
+                strategy: handleLink,
+                component: HandleLinkSpan
+            }
+        ]);
+
         this.state = {
-            editorState: EditorState.createEmpty()
+            editorState: EditorState.createEmpty(this.decorator)
         };
         this.onChange = (editorState) => {
             this.setState({editorState});
@@ -78,7 +105,7 @@ export default class EditorRich extends React.Component {
         if (this.props.defaultContentState) {
             let newRawContent = {...this.props.defaultContentState, entityMap: {}}
             let newContentState = convertFromRaw(newRawContent);
-            this.onChange(EditorState.createWithContent(newContentState));
+            this.onChange(EditorState.createWithContent(newContentState, this.decorator));
         }
     }
 

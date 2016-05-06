@@ -41,7 +41,7 @@ const validate = values => {
     const {first_name, last_name} = values;
     fields.map((field) => {
         if (!values[field]) {
-            errors[field] = `${field} is required`;
+            errors[field] = `Required`;
         }
         else {
             switch (field) {

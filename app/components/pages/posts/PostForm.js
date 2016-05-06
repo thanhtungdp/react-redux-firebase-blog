@@ -26,7 +26,7 @@ export default class PostForm extends Component {
                     <div className="tools pull-right">
                         {this.props.formType == 'edit' &&
                         <div>
-                            <Link to={`posts/${this.props.post_id}`} className="btn btn-blue">View</Link>
+                            <Link to={`posts/${this.props.post_id}`} className="btn btn-blue">View</Link> {' '}
                             <Button bsStyle="orange" type="submit"
                                     disabled={submitting} onClick={this.props.onDelete}><i className="icon-trash"/>
                                 Delete</Button>
@@ -48,12 +48,13 @@ export default class PostForm extends Component {
                     </ValidateWrapControl>
 
                     {formType == 'edit' ?
-                        (awaitStatuses.createPost == 'pending' ? <Loading text="Post is updating"/> : null) :
-                        (awaitStatuses.updatePost == 'pending' ? <Loading text="Post is creating"/> : null)
+                        (awaitStatuses.updatePost == 'pending' ? <Loading text="Post is updating"/> : null) :
+                        (awaitStatuses.createPost == 'pending' ? <Loading text="Post is creating"/> : null)
                     }
                     {awaitStatuses.deletePost == 'pending' &&
                         <Loading text="Post is deleting"/>
                     }
+                    {awaitStatuses.getPost == 'pending' && <Loading text="Post is loading"/>}
                     {formType == 'edit' ?
                         <div>
                             <Button bsStyle="red" className="pull-right" type="submit"
@@ -69,7 +70,7 @@ export default class PostForm extends Component {
 }
 
 PostForm.propTypes = {
-    formType: PropTypes.oneOf(['create','edit']),
+    formType: PropTypes.oneOf(['create', 'edit']),
     post_id: PropTypes.string,
     fields: PropTypes.shape({
         title: PropTypes.object,

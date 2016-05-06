@@ -1,5 +1,5 @@
 const postsList = {
-    perPage: 4
+    perPage: 5
 }
 
 export {

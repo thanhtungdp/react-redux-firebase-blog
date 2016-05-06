@@ -22,6 +22,17 @@ export default class PostsList extends Component {
         }, 300);
     }
 
+    componentDidMount() {
+        window.addEventListener('scroll', function () {
+            if (this.props.awaitStatuses.getPosts == 'success') {
+                console.log(document.body.scrollHeight + 'vs' + document.body.scrollTop + 'vs' + window.innerHeight);
+                if (document.body.scrollHeight <= document.body.scrollTop + window.innerHeight) {
+                    this.props.loadMore();
+                }
+            }
+        }.bind(this));
+    }
+
     render() {
         let posts = this.props.posts.slice(0, this.props.currentItems).map(post =>
             <Col md={6} key={post.id}>
@@ -40,7 +51,7 @@ export default class PostsList extends Component {
                         </Masonry>
                         { this.props.currentItems < this.props.posts.length &&
                         <Col md={12} className="text-center">
-                            <button className="btn btn-red" onClick={() => this.props.loadMore(4)}>Load more</button>
+                            <button className="btn btn-red" onClick={() => this.props.loadMore()}>Load more</button>
                         </Col>
                         }
                     </Row>

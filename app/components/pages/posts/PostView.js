@@ -10,7 +10,7 @@ export default class PostView extends Component {
     render() {
         let {post, isAuthor, awaitStatuses, awaitErrors} = this.props;
         return (
-            <WrapContainer animateIn="zoomIn">
+            <WrapContainer animateIn="fadeIn">
                 {awaitStatuses.getPost == 'pending' && <Loading text="Post is loading"/>}
                 {awaitStatuses.getPost == 'success' &&
                 <div className="post-view">

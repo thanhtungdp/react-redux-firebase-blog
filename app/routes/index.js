@@ -17,7 +17,7 @@ export default () => {
                 <Route path="register" component={redirectIfAuthenticated(RegisterContainer)}/>
                 <Route path="profile" component={redirectIfGuest(ProfileContainer)}/>
                 <Route path="login" component={redirectIfAuthenticated(LoginContainer)}/>
-                <Route path="logout" component={redirectIfGuest(LoginContainer,'/')}/>
+                <Route path="logout" component={redirectIfGuest(LogoutContainer,'/')}/>
             </Route>
             <Route path="/posts">
                 <IndexRoute component={PostsListContainer}/>

@@ -16,17 +16,20 @@ export class EditPostContainer extends Component {
         this.props.updatePost(post, this.props.post_id);
     }
 
-    onDelete(){
-        this.props.deletePost(this.props.post_id);
+    onDelete() {
+        let s_confirm = confirm('Are you sure?')
+        if(s_confirm){
+            this.props.deletePost(this.props.post_id);
+        }
     }
 
     componentDidMount() {
         this.props.getPostView(this.props.post_id);
-        this.props.resetAwait(['updatePost','deletePost']);
+        this.props.resetAwait(['updatePost', 'deletePost']);
     }
 
     componentDidUpdate() {
-        if(this.props.awaitStatuses.deletePost == 'success'){
+        if (this.props.awaitStatuses.deletePost == 'success') {
             hashHistory.push('posts');
         }
         setTitle(`Edit post ${this.props.post.title ? this.props.post.title : ''}`)
