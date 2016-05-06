@@ -1,4 +1,4 @@
-# React Redux Simple Starter Kit
+# React + Redux + Firebase = Blog Example + Authenticated
 This project is a simple blog using React, Redux & Firebase.
 * Register and Login
 * Create and Edit Post
@@ -8,7 +8,8 @@ This project is a simple blog using React, Redux & Firebase.
 ## Demo online
 [http://react-redux-blog.firebaseapp.com/](http://react-redux-blog.firebaseapp.com/)
 Demo:
-![demo gif][demo]
+![demo gif]
+[demo]
 [demo]: https://media.giphy.com/media/l396NAqYcOiPewcs8/giphy.gif
 
 ## About
