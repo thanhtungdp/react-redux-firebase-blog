@@ -1,20 +1,50 @@
+// Packages
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {reduxForm} from 'redux-form';
-import PostForm from '../../../components/pages/posts/PostForm';
+import {pushState, hashHistory} from 'react-router';
+
+// Components
+import {setTitle, reduxAwait} from '../../../utils/index';
 import {createPost} from '../../actions/PostAction';
+import {resetAwait} from '../../actions/AwaitAction';
+import PostForm from '../../../components/pages/posts/PostForm';
 
 
-const mapStateToProps = (state, ownProps)=> {
-    return {
-        isFetching: state.posts.create.isFetching,
-        error: state.posts.create.error,
-        completed: state.posts.create.completed
+class CreatePostContainer extends Component {
+    onSubmit(post) {
+        this.props.createPost(post);
+    }
+
+    componentDidUpdate() {
+        const {awaitStatuses, keyAwait, postCreated} = this.props;
+        if (awaitStatuses[keyAwait] == 'success' && awaitStatuses.createPost) {
+            hashHistory.push(`/posts/edit/${postCreated.id}`);
+        }
+        setTitle(`Create post`);
+    }
+
+    componentDidMount() {
+        this.props.resetAwait([this.props.keyAwait]);
+    }
+
+    render() {
+        return (
+            <PostForm {...this.props} onSubmit={this.onSubmit.bind(this)}/>
+        )
     }
 }
 
-const mapDispatchToProps = (dispatch, state)=> {
-    return bindActionCreators({updatePost: createPost}, dispatch);
+const mapStateToProps = (state)=> {
+    return {
+        postCreated: state.posts.currentPost,
+        formType: 'create',
+        keyAwait: 'createPost'
+    }
+}
+
+const mapDispatchToProps = (dispatch)=> {
+    return bindActionCreators({createPost, resetAwait}, dispatch);
 
 }
 
@@ -30,8 +60,10 @@ const validate = (values) => {
 
 const fields = ['title', 'description', 'content'];
 
-export default reduxForm({
+let createForm = reduxForm({
     form: 'CreatePost',
     fields,
     validate
-}, mapStateToProps, mapDispatchToProps)(PostForm);
+})(CreatePostContainer);
+
+export default reduxAwait.connect(mapStateToProps, mapDispatchToProps)(createForm);

@@ -1,0 +1,97 @@
+@import "./buttons";
+.navbar-custom {
+  background: $bg-primary-color;
+  border: 0px;
+  font-size: 14px;
+  border-bottom: 0px;
+  border-bottom: 1px solid #eeeeee;
+  margin-bottom: 0px;
+  border-radius: 0px;
+  min-height: 40px;
+  .navbar-brand {
+    padding: 8px;
+    position: relative;
+    height: 40px !important;
+    img {
+      height: 20px;
+      margin-top: 3px;
+    }
+    .underline{
+      position: absolute;
+      top: 6px;
+      left: 23px;
+      font-weight: 700;
+      color:#ffffff
+    }
+  }
+  .navbar-nav {
+    & > li {
+      &.dropdown > a {
+        background: transparent;
+        &:hover, &:focus {
+          background: transparent;
+        }
+      }
+      & > a {
+        -webkit-transition: all .3s linear;
+        -moz-transition: all .3s linear;
+        -ms-transition: all .3s linear;
+        -o-transition: all .3s linear;
+        transition: all .3s linear;
+        font-size: 14px;
+        color: $text-header;
+        background: transparent;
+        font-family: 'Raleway';
+        @media (min-width: 768px) {
+          padding-top: 12px;
+          padding-bottom: 12px;
+        }
+        &:hover, &:focus {
+          background: lighten($bg-primary-color, 6%);
+          color: #ffffff;
+          //color: #ef6c00;
+          //background: transparent !important;
+          outline: none;
+        }
+        &.btn {
+          color: #ffffff;
+          padding-top: 5px;
+          padding-bottom: 5px;
+          margin-top: 10px;
+          &.login {
+            @extend .btn-orange;
+          }
+        }
+      }
+      .dropdown-menu {
+        //position: relative;
+        padding: 0px 0px;
+        & > li > a{
+          padding: 5px 20px;
+        }
+        &:before {
+          width: 0px;
+          height: 0px;
+          border-left: 7px solid transparent;
+          border-right: 7px solid transparent;
+          border-bottom: 8px solid #ffffff;
+          position: absolute;
+          top: -8px;
+          left: 20px;
+          content: '';
+        }
+        &.cart {
+          .cart-products {
+            height: 300px;
+            .product {
+              width: 400px;
+            }
+          }
+        }
+      }
+    }
+  }
+  &.navbar-remove-fixed {
+    position: absolute !important;
+  }
+}

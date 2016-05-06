@@ -4,6 +4,7 @@ import {
     Editor, EditorState, ContentState, RichUtils,
     getDefaultKeyBinding, KeyBindingUtil,
     Entity, convertToRaw, CompositeDecorator,
+    convertFromRaw,
     AtomicBlockUtils, Modifier
 } from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
@@ -20,21 +21,19 @@ export default class EditorRich extends React.Component {
             this.setState({editorState});
             let contentState = editorState.getCurrentContent();
 
-            if(contentState.getPlainText()){
+            if (contentState.getPlainText()) {
                 this.props.onChange(convertToRaw(contentState));
             }
-            else{
+            else {
                 this.props.onChange(null);
             }
         }
         this.focus = () => {
-            this.refs.editor.focus();
-        }
-        this.logState = () => {
+            //this.refs.editor.focus();
         }
     }
 
-    _toggleBlockType(blockType){
+    _toggleBlockType(blockType) {
         this.onChange(
             RichUtils.toggleBlockType(
                 this.state.editorState,
@@ -43,7 +42,7 @@ export default class EditorRich extends React.Component {
         )
     }
 
-    _toggleInlineStyle(inlineStyle){
+    _toggleInlineStyle(inlineStyle) {
         this.onChange(
             RichUtils.toggleInlineStyle(
                 this.state.editorState,
@@ -52,12 +51,12 @@ export default class EditorRich extends React.Component {
         )
     }
 
-    handleKeyCommand(command){
+    handleKeyCommand(command) {
         const newState = RichUtils.toggleBlockType(this.state.editorState, command);
         this.onChange(newState);
     }
 
-    handleTab(e){
+    handleTab(e) {
         e.preventDefault();
         let contentState = this.state.editorState.getCurrentContent();
         let targetRange = this.state.editorState.getSelection();
@@ -75,28 +74,34 @@ export default class EditorRich extends React.Component {
         this.focus();
     }
 
-    componentDidMount(){
-        if(this.props.defaultContent){
-            let newContentState = convertFromRaw(this.props.defaultContentState);
-            this.onChange(Editor.createWithContent(newContentState));
+    componentDidMount() {
+        if (this.props.defaultContentState) {
+            let newRawContent = {...this.props.defaultContentState, entityMap: {}}
+            let newContentState = convertFromRaw(newRawContent);
+            this.onChange(EditorState.createWithContent(newContentState));
         }
     }
 
     render() {
         const {editorState} = this.state;
 
-        let className='RichEditor-editor';
-        var contentState  = editorState.getCurrentContent();
-        if(!contentState.hasText()){
-            if(contentState.getBlockMap().first().getType() !== 'unstyled'){
+        let className = !this.props.readOnly ? 'RichEditor-editor' : null;
+        var contentState = editorState.getCurrentContent();
+        if (!contentState.hasText()) {
+            if (contentState.getBlockMap().first().getType() !== 'unstyled') {
                 className += ' RichEditor-hidePlaceholder';
             }
         }
+
         return (
-            <div className="RichEditor-root">
-                <BlockStyleControls editorState={editorState} onToggle={this._toggleBlockType.bind(this)}/>
-                <InlineStyleControls editorState={editorState} onToggle={this._toggleInlineStyle.bind(this)}/>
-                <div className="RichEditor-editor" onClick={this.focus}>
+            <div className={!this.props.readOnly ? 'RichEditor-root':null}>
+                {!this.props.readOnly &&
+                <div>
+                    <BlockStyleControls editorState={editorState} onToggle={this._toggleBlockType.bind(this)}/>
+                    <InlineStyleControls editorState={editorState} onToggle={this._toggleInlineStyle.bind(this)}/>
+                </div>
+                }
+                <div className={className} onClick={this.focus}>
                     <Editor editorState={editorState}
                             onChange={this.onChange}
                             placeholder="Enter some text ..."
@@ -105,7 +110,7 @@ export default class EditorRich extends React.Component {
                             onTab={this.handleTab.bind(this)}
                             keyBindingFn={myKeyBindingFn}
                             ref="editor"
-                            readOnly={false}
+                            readOnly={this.props.readOnly}
                             contentEditable={true}
                             disableContentEditableWarning
                             suppressContentEditableWarning
@@ -116,8 +121,8 @@ export default class EditorRich extends React.Component {
     }
 }
 
-function myKeyBindingFn(e: SyntheticKeyboardEvent): string{
-    if(e.keyCode ==69 && KeyBindingUtil.hasCommandModifier(e)){
+function myKeyBindingFn(e:SyntheticKeyboardEvent):string {
+    if (e.keyCode == 69 && KeyBindingUtil.hasCommandModifier(e)) {
         return 'code-block';
     }
     return getDefaultKeyBinding(e);
@@ -157,9 +162,15 @@ class StyleButton extends React.Component {
 const BLOCK_TYPES = [
     {label: 'H1', style: 'header-one'},
     {label: 'H2', style: 'header-two'},
-    {label: 'blockquote', style: 'blockquote'},
-    {label: 'Code block', style: 'code-block'}
-]
+    {label: 'H3', style: 'header-three'},
+    {label: 'H4', style: 'header-four'},
+    {label: 'H5', style: 'header-five'},
+    {label: 'H6', style: 'header-six'},
+    {label: 'Blockquote', style: 'blockquote'},
+    {label: 'UL', style: 'unordered-list-item'},
+    {label: 'OL', style: 'ordered-list-item'},
+    {label: 'Code Block', style: 'code-block'},
+];
 
 const BlockStyleControls = (props) => {
     const {editorState} = props;
@@ -205,4 +216,10 @@ const InlineStyleControls = (props) => {
             )}
         </div>
     )
+}
+
+EditorRich.defaultProps = {
+    onChange: () => {
+
+    }
 }

@@ -1,11 +1,13 @@
 import LoginContainer from './LoginContainer';
 import ProfileContainer from './ProfileContainer';
 import RegisterContainer from './RegisterContainer';
+import LogoutContainer from './LogoutContainer';
 
 export default {
     LoginContainer,
     ProfileContainer,
-    RegisterContainer
+    RegisterContainer,
+    LogoutContainer
 };
 
-export {LoginContainer, ProfileContainer, RegisterContainer}
+export {LoginContainer, ProfileContainer, RegisterContainer, LogoutContainer}

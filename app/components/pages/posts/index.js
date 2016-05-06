@@ -1,6 +1,7 @@
 import PostForm from './PostForm';
-import PostLists from './PostLists';
+import PostsList from './PostsList';
+import PostView from './PostView';
 
-export default {PostForm, PostLists};
+export default {PostForm, PostsList, PostView};
 
-export {PostForm, PostLists};
+export {PostForm, PostsList, PostView};

@@ -1,31 +1,30 @@
 import React from 'react';
 import {Router, Route, IndexRoute, hashHistory} from 'react-router';
+import {redirectIfGuest, redirectIfAuthenticated} from '../redux/containers/requireAuth';
+
 import AppMaster from '../components/layouts/master/AppMaster';
 
-import {LoginContainer, ProfileContainer, RegisterContainer} from '../redux/containers/member/index';
-import {CreatePostContainer, PostListsContainer} from '../redux/containers/posts/index';
+import {LoginContainer, ProfileContainer, RegisterContainer, LogoutContainer} from '../redux/containers/member/index';
+import {CreatePostContainer, PostsListContainer, PostViewContainer, EditPostContainer} from '../redux/containers/posts/index';
 
-import Logout from '../components/pages/member/Logout';
-import ProtectedPage from '../components/pages/ProtectedPage';
-import HomePage from '../components/pages/HomePage';
-import {redirectIfGuest, redirectIfAuthenticated} from '../redux/containers/requireAuth';
 
 
 export default () => {
     return (
         <Route path="/" component={AppMaster}>
-            <IndexRoute component={HomePage}/>
+            <IndexRoute component={PostsListContainer}/>
             <Route path="/auth">
                 <Route path="register" component={redirectIfAuthenticated(RegisterContainer)}/>
                 <Route path="profile" component={redirectIfGuest(ProfileContainer)}/>
                 <Route path="login" component={redirectIfAuthenticated(LoginContainer)}/>
-                <Route path="logout" component={redirectIfGuest(Logout,'/auth/login')}/>
+                <Route path="logout" component={redirectIfGuest(LoginContainer,'/')}/>
             </Route>
             <Route path="/posts">
-                <IndexRoute component={PostListsContainer}/>
+                <IndexRoute component={PostsListContainer}/>
                 <Route path="create" component={redirectIfGuest(CreatePostContainer)}/>
+                <Route path="edit/:id" component={redirectIfGuest(EditPostContainer)}/>
+                <Route path=":id" component={PostViewContainer}></Route>
             </Route>
-            <Route path="/protected-page" component={redirectIfGuest(ProtectedPage)}/>
         </Route>
     )
 }

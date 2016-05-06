@@ -1,6 +1,4 @@
 import Firebase from 'firebase';
-import configs from '../configs/index';
-
-export default new Firebase(configs.firebase.url);
+export default new Firebase('http://vndev-chat.firebaseio.com');
 
 

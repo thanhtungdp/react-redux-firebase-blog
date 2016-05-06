@@ -1,5 +1,7 @@
-export default {
-    firebase: {
-        url: 'http://vndev-chat.firebaseio.com'
-    }
+const postsList = {
+    perPage: 4
+}
+
+export {
+    postsList
 }

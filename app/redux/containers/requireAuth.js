@@ -46,23 +46,7 @@ export function requireAuth(Component, redirectCheck = REDIRECT_IF_GUEST, redire
         }
 
         componentDidMount() {
-            this.props.actions.checkToken();
-            //switch (redirectCheck) {
-            //    case REDIRECT_IF_GUEST:
-            //        /*this.checkTokenInterval = window.setInterval(()=> {
-            //            this.props.actions.checkToken();
-            //            console.log(redirectCheck);
-            //        }, 5000);*/
-            //        break;
-            //}
-        }
-
-        componentWillUnmount() {
-            switch (redirectCheck) {
-                case REDIRECT_IF_GUEST:
-                    window.clearInterval(this.checkTokenInterval);
-                    break;
-            }
+            this.checkAuth(this.props.guest);
         }
 
         render() {
@@ -84,7 +68,6 @@ export function requireAuth(Component, redirectCheck = REDIRECT_IF_GUEST, redire
     }
 
     const mapStateToProps = (state)=>({
-        tokenFetching: state.auth.token.isFetching,
         guest: state.auth.authenticated.guest
     });
 

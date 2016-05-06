@@ -1,0 +1,138 @@
+@import "../variables";
+
+@mixin button_vndev($color, $color-text:#ffffff) {
+	background: $color;
+	box-shadow: 0px 3px 0px 0px darken($color, 10%);
+	border-radius: 2px;
+	-webkit-transition: all .3s linear;
+	-moz-transition: all .3s linear;
+	-ms-transition: all .3s linear;
+	-o-transition: all .3s linear;
+	transition: all .3s linear;
+	color: $color-text;
+	&:hover, &:focus {
+		background: lighten($color, 6%);
+		color: $color-text;
+		outline: none;
+	}
+}
+
+.btn-red {
+	@include button_vndev(#e7543d);
+}
+
+.btn-blue {
+	@include button_vndev(#39add1);
+}
+
+.btn-orange {
+	@include button_vndev(#eb7728);
+}
+
+.btn-purple {
+	@include button_vndev(#9e4d83);
+}
+
+.btn-green {
+	@include button_vndev(#5cb860);
+}
+
+.btn-yellow {
+	@include button_vndev(#ebba10)
+}
+
+.btn-blue-dark {
+	@include button_vndev(#3e474f)
+}
+
+.btn-circle {
+	width: 70px;
+	height: 70px;
+	margin-top: 15px;
+	padding: 7px 16px;
+	border: 2px solid white;
+	border-radius: 100% !important;
+	font-size: 40px;
+	color: white;
+	position: relative;
+	z-index: 9999;
+	background: transparent;
+	-webkit-transition: background .3s ease-in-out;
+	-moz-transition: background .3s ease-in-out;
+	transition: background .3s ease-in-out;
+	&:hover,
+	&:focus {
+		outline: none;
+		color: white;
+		background: rgba(white, 0.1);
+	}
+	i.animated {
+		-webkit-transition-property: -webkit-transform;
+		-webkit-transition-duration: 1s;
+		-moz-transition-property: -moz-transform;
+		-moz-transition-duration: 1s;
+	}
+	&:hover {
+		i.animated {
+			-webkit-animation-name: pulse;
+			-moz-animation-name: pulse;
+			-webkit-animation-duration: 1.5s;
+			-moz-animation-duration: 1.5s;
+			-webkit-animation-iteration-count: infinite;
+			-moz-animation-iteration-count: infinite;
+			-webkit-animation-timing-function: linear;
+			-moz-animation-timing-function: linear;
+		}
+	}
+}
+
+@-webkit-keyframes pulse {
+	from {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+
+	50% {
+		-webkit-transform: scale(1.2);
+		transform: scale(1.2);
+	}
+
+	100% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+	}
+}
+
+@-moz-keyframes pulse {
+	from {
+		-moz-transform: scale(1);
+		transform: scale(1);
+	}
+
+	50% {
+		-moz-transform: scale(1.2);
+		transform: scale(1.2);
+	}
+
+	100% {
+		-moz-transform: scale(1);
+		transform: scale(1);
+	}
+}
+
+.btn-white {
+	border: 1px solid $btn-white;
+	color: $btn-white;
+	background-color: transparent;
+	&:hover,
+	&:focus {
+		border: 1px solid $primary;
+		outline: none;
+		color: #ffffff;
+		background-color: $primary;
+	}
+}
+
+.btn-black {
+
+}

@@ -1,9 +1,13 @@
 import CreatePostContainer from './CreatePostContainer';
-import PostListsContainer from './PostListsContainer';
+import EditPostContainer from './EditPostContainer';
+import PostsListContainer from './PostsListContainer';
+import PostViewContainer from './PostViewContainer';
 
 export default {
     CreatePostContainer,
-    PostListsContainer
+    PostsListContainer,
+    PostViewContainer,
+    EditPostContainer
 }
 
-export {CreatePostContainer, PostListsContainer}
+export {CreatePostContainer, PostsListContainer, PostViewContainer, EditPostContainer}

@@ -7,18 +7,34 @@ export default class AuthFirebase {
         this.profile = {};
     }
 
-    register(email, password, profile) {
+    /**
+     * Register user
+     * @param email | string
+     * @param password | string
+     * @returns {Promise}
+     */
+    register(email, password, profile = {}) {
+        let context = this;
         let promise = new Promise(function (resolve, reject) {
             firebase.createUser({email, password}, function (err, user) {
                 if (err) {
-                    reject(err);
+                    reject(err.message);
                 }
-                else resolve(user)
+                else {
+                    context.updateProfile(profile, user.uid).then((profile)=> {
+                        resolve({email, password});
+                    });
+                }
             });
         });
         return promise;
     }
 
+    /**
+     * Clean user from requesst
+     * @param user
+     * @returns {{email: *, token: (*|token|{isFetching}|{token, isFetching, error}|string), uid: (*|number)}}
+     */
     cleanUser(user) {
         return {
             email: user.password.email,
@@ -27,11 +43,17 @@ export default class AuthFirebase {
         }
     }
 
+    /**
+     * Login
+     * @param email | string
+     * @param password | password
+     * @returns {Promise}
+     */
     login(email, password) {
         let promise = new Promise(function (resolve, reject) {
             firebase.authWithPassword({email: email, password: password}, function (err, user) {
                 if (err) {
-                    reject(err);
+                    reject(err.message);
                 }
                 else {
                     resolve(this.cleanUser(user));
@@ -41,6 +63,10 @@ export default class AuthFirebase {
         return promise;
     }
 
+    /**
+     * Check is Authenticated
+     * @returns {Promise}
+     */
     isAuthenticated() {
         let user = firebase.getAuth();
         let promise = new Promise(function (resolve, reject) {
@@ -52,6 +78,10 @@ export default class AuthFirebase {
         return promise;
     }
 
+    /**
+     * Logout
+     * @returns {Promise}
+     */
     logout() {
         return new Promise(function (relsove, reject) {
             firebase.unauth();
@@ -59,6 +89,12 @@ export default class AuthFirebase {
         })
     }
 
+    /**
+     * Update profile
+     * @param profile | object
+     * @param uid | string (eg: user_id)
+     * @returns {Promise}
+     */
     updateProfile(profile = {}, uid) {
         let userProfile = firebase.child('users').child(uid);
         let promise = new Promise(function (resolve, reject) {
@@ -74,6 +110,11 @@ export default class AuthFirebase {
         return promise;
     }
 
+    /**
+     * Get profile
+     * @param uid
+     * @returns {Promise}
+     */
     getProfile(uid) {
         let userProfile = firebase.child('users').child(uid);
         let promise = new Promise(function (resolve, reject) {

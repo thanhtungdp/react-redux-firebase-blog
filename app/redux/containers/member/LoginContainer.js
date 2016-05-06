@@ -1,10 +1,24 @@
 import React from 'react';
-import Login from '../../../components/pages/member/Login';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {authLogin} from '../../actions/AuthAction';
+import {bindActionCreators, bindActionCreator} from 'redux';
 import {reduxForm} from 'redux-form';
 import validator from 'validator';
+import {setTitle, reduxAwait} from '../../../utils/index';
+import {authLogin} from '../../actions/AuthAction';
+import Login from '../../../components/pages/member/Login';
+
+class LoginContainer extends React.Component {
+    onSubmit(...args) {
+        this.props.authLogin(...args);
+    }
+    componentDidMount(){
+        setTitle('Login');
+    }
+    render() {
+        return (
+            <Login {...this.props} onSubmit={this.onSubmit.bind(this)}/>
+        )
+    }
+}
 
 const fields = ['email', 'password'];
 
@@ -12,27 +26,28 @@ const validate = (values) => {
     const {email, password} = values;
     const errors = {};
 
-    if(!email) errors.email = 'Required';
-    else if(!validator.isEmail(email)) errors.email = 'Not valid email';
+    if (!email) errors.email = 'Required';
+    else if (!validator.isEmail(email)) errors.email = 'Not valid email';
 
-    if(!password) errors.password = 'Required';
+    if (!password) errors.password = 'Required';
 
     return errors;
 }
 
 const mapStateToProps = (state)=> {
     return {
-        guest: state.auth.authenticated.guest,
-        loginStatus: state.auth.login
+        guest: state.auth.authenticated.guest
     }
 }
 
 const mapDispatchToProps = (dispatch)=> {
-    return bindActionCreators({actionLogin: authLogin}, dispatch);
+    return bindActionCreators({authLogin}, dispatch)
 }
 
-export default reduxForm({
+let LoginForm = reduxForm({
     form: 'Login',
     fields,
     validate
-}, mapStateToProps, mapDispatchToProps)(Login);
+})(LoginContainer);
+
+export default reduxAwait.connect(mapStateToProps, mapDispatchToProps)(LoginForm);

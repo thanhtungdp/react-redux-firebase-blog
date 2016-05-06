@@ -1,7 +1,7 @@
 import React,{Component, PropTypes} from 'react';
 import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 
-export default class HigherControl extends Component {
+export default class ValidateWrapControl extends Component {
     constructor() {
         super(...arguments)
     }
@@ -14,13 +14,13 @@ export default class HigherControl extends Component {
             <FormGroup validationState={status}>
                 {title && <ControlLabel>{title}</ControlLabel>}
                 {this.props.children}
-                {touched && error && <p>{error}</p>}
+                {touched && error && <span className="help-block">{error}</span>}
             </FormGroup>
         )
     }
 }
 
-HigherControl.propTypes = {
+ValidateWrapControl.propTypes = {
     title: PropTypes.string,
     touched: PropTypes.bool,
     error: PropTypes.string

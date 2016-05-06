@@ -1,33 +1,40 @@
 import React,{PropTypes} from 'react';
 import {Form, Button, Grid, Col} from 'react-bootstrap';
-import Validator from 'validator';
-import {InputText} from '../../form/index';
+import {InputText, WrapContainer, Loading} from '../../form/index';
 
 export default class Login extends React.Component {
     onSubmit() {
-        this.props.actionLogin(this.props.fields.email.value, this.props.fields.password.value);
+        this.props.onSubmit(this.props.fields.email.value, this.props.fields.password.value);
     }
 
     render() {
-        let {fields:{email, password}, guest, loginStatus, handleSubmit} = this.props;
+        let {fields:{email, password},awaitStatuses, awaitErrors, handleSubmit} = this.props;
         return (
-            <Grid>
-                <Col md={6} mdOffset={3}>
-                    <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+            <WrapContainer>
+                <Col md={8} mdOffset={2}>
+                    <h1 className="title">Login</h1>
+                    <form onSubmit={handleSubmit(this.onSubmit.bind(this))} className="form">
                         <InputText title="Email" type="text" {...email}/>
                         <InputText title="Password" type="password" {...password}/>
-                        {loginStatus.isFetching && <div>Is loging ...</div>}
-                        {loginStatus.error && <div>{loginStatus.error}</div>}
-                        <Button bsStyle="primary" type="submit" disabled={loginStatus.isFetching}>Login</Button>
+                        {awaitStatuses.userLogin == 'pending' && <Loading text="User is checking"/>}
+                        {awaitErrors.userLogin && <div>{awaitErrors.userLogin}</div>}
+                        <Button bsStyle="red" type="submit"
+                                disabled={awaitStatuses.userLogin == 'pending'} className="pull-right">Login</Button>
                     </form>
                 </Col>
-            </Grid>
+            </WrapContainer>
         )
     }
 }
 
 Login.propTypes = {
-    actionLogin: PropTypes.func.isRequired,
-    loginStatus: PropTypes.object.isRequired,
-    guest: PropTypes.bool
+    fields: PropTypes.object.isRequired,
+    awaitStatuses: PropTypes.shape({
+        userLogin: PropTypes.string
+    }),
+    awaitErrors: PropTypes.shape({
+        userLogin: PropTypes.string
+    }),
+    handleSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
 }

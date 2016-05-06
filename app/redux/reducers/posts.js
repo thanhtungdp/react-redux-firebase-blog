@@ -1,76 +1,50 @@
 import {
-    POST_CREATE_FETCHING, POST_CREATE_COMPLETED, POST_CREATE_FAILED,
-    POST_LISTS_FETCHING, POST_LISTS_FAILED, POST_LISTS_COMPLETED,
+    POST_LISTS, POST_CREATE, POST_VIEW, POST_EDIT, POST_RESET, POST_LISTS_LOAD_MORE
 } from '../actions/PostAction';
 import update from 'react-addons-update';
 import {createReducer} from 'redux-create-reducer';
-
-/*let initinalState = {
- isAuthenticated:
- }*/
+import {postsList} from '../../configs/index';
 
 const getInitialState = () => {
     return {
-        lists: {
-            isFetching: false,
-            payload: {
-                posts: []
-            }
-        },
-        create: {
-            isFetching: false,
-            error: '',
-            completed: false,
+        lists: [],
+        currentItems: postsList.perPage, //pagination
+        currentPost: {
+            user: {}
         }
     }
 }
 
 export default createReducer(getInitialState(), {
-    [POST_CREATE_FETCHING](state){
+    [POST_LISTS](state, action){
         return update(state, {
-            create: {
-                isFetching: {$set: true}
-            }
+            lists: {$set: action.payload.getPosts}
         });
     },
-    [POST_CREATE_COMPLETED](state, action){
+    [POST_CREATE](state, action){
         return update(state, {
-            create: {
-                isFetching: {$set: false},
-                completed: {$set: true},
-                post: {$set: action.post},
-                id: {$set: action.id}
-            }
-        });
-    },
-    [POST_CREATE_FAILED](state, action){
-        return update(state, {
-            create: {
-                isFetching: {$set: false},
-                error: {$set: action.error}
-            }
-        });
-    },
-    [POST_LISTS_FETCHING](state, action){
-        return update(state, {
-            lists: {
-                isFetching: {$set: true}
-            }
+            currentPost: {$set: action.payload.createPost}
         })
     },
-    [POST_LISTS_FAILED](state, action){
+    [POST_VIEW](state, action){
         return update(state, {
-            lists: {
-                isFetching: {$set: false},
-                error: {$set: action.error}
-            }
-        })
+            currentPost: {$set: action.payload.getPost}
+        });
     },
-    [POST_LISTS_COMPLETED](state, action){
+    [POST_RESET](state){
         return update(state, {
-            lists: {
-                isFetching: {$set: false},
-                payload: {$set: action.payload}
+            currentPost: {$set: {user: {}}}
+        });
+    },
+    [POST_LISTS_LOAD_MORE](state, action){
+        return update(state, {
+            currentItems: {
+                $apply: (value) => {
+                    let currentItems = value + action.loadMore;
+                    if(currentItems < state.lists.length)
+                        return currentItems;
+                    else return state.lists.length
+                }
             }
         })
     }

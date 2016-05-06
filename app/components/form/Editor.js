@@ -1,6 +1,6 @@
 import React,{Component, PropTypes} from 'react';
 import {FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
-import HigherControl from './HigherControl';
+import ValidateWrapControl from './ValidateWrapControl';
 import EditorRich from './Editor/index';
 import validator from 'validator';
 
@@ -11,9 +11,9 @@ export default class EditorRich extends Component {
 
     render() {
         return (
-            <HigherControl {...this.props}>
+            <ValidateWrapControl {...this.props}>
                 <EditorRich {...this.props}/>
-            </HigherControl>
+            </ValidateWrapControl>
         )
     }
 }

@@ -1,151 +1,138 @@
 @import "richText";
-body
-{
-    font-family: 'Roboto', sans-serif;
+@import "./variables";
+@import "./mixins";
+@import "./partials/margin";
+@import "./partials/text";
+@import "./partials/buttons";
+@import "./partials/header";
+@import "./partials/loading";
+@import "./pages/post_lists";
 
-    background: #f1f1f1;
-}
-.header
-{
-    width: 100%;
-    padding-top: 200px;
-    padding-bottom: 200px;
-
-    -webkit-animation-name: headeranimation;
-    -moz-animation-name: headeranimation;
-    animation-name: headeranimation;
-    -webkit-animation-duration: 1s;
-    -moz-animation-duration: 1s;
-    animation-duration: 1s;
-    -webkit-animation-play-state: paused;
-    -moz-animation-play-state: paused;
-    animation-play-state: paused;
-    -webkit-animation-timing-function: ease;
-    -moz-animation-timing-function: ease;
-    animation-timing-function: ease;
-
-    background-position: center center;
-    background-size: cover;
-
-    animation-fill-mode: forwards;
-    -webkit-animation-fill-mode: forwards;
-    -moz-animation-fill-mode: forwards;
-}
-
-@keyframes headeranimation
-{
-    to
-    {
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
+@mixin placeholder($selector, $color) {
+  #{$selector}::-webkit-input-placeholder {
+    color: $color;
+    transition: opacity 250ms ease-in-out;
+  }
+  #{$selector}::-moz-placeholder {
+    color: $color;
+    transition: opacity 250ms ease-in-out;
+  }
+  #{$selector}:-ms-input-placeholder {
+    color: $color;
+    transition: opacity 250ms ease-in-out;
+  }
+  #{$selector}:focus::-webkit-input-placeholder {
+    color: lighten($color,10)
+  }
+  #{$selector}:focus::-moz-placeholder {
+    color: lighten($color,10)
+  }
+  #{$selector}:focus:-ms-input-placeholder {
+    color: lighten($color,10)
+  }
 }
 
-@-webkit-keyframes headeranimation
-{
-    to
-    {
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: #fafafa;
+  font-size: 14px;
 }
 
-@-moz-keyframes headeranimation
-{
-    to
-    {
-        padding-top: 20px;
-        padding-bottom: 20px;
-    }
+.bg-white {
+  background: #ffffff;
+  padding: 30px 30px;
+  position: relative;
+  //min-height: 90%;
+  h1.title{
+    color: #595959;
+    font-weight: 400;
+    font-family: 'Raleway';
+    font-size: 20px;
+    margin-top: 0px;
+    margin-bottom: 20px;
+  }
 }
 
-h1
-{
-    margin: 0 0 20px 0;
-
-    color: rgba(10, 10, 10, .6);
-}
-
-div.form-group
-{
-    margin-bottom: 0;
-}
-
-div.form-group > input.form-control.input-lg
-{
-    border: 1px solid #fff;
+.form-control {
+  border: 1px solid #ddd;
+  border-radius: 0px;
+  box-shadow: none;
+  font-size: 14px;
+  &:focus {
     box-shadow: none;
+  }
+}
+//@include placeholder('input', #595959);
+
+i[class*="icon-"]{
+  top: 1px;
+  position: relative;
 }
 
-div.form-group > input.form-control.input-lg:focus
-{
-    border: 1px solid #666;
-}
-
-.search-bar-content
-{
-    text-align: center;
-}
-
-.image-item
-{
-    margin-top: 10px;
+.form {
+  .control-label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #727272;
     margin-bottom: 10px;
+    font-weight: 400;
+  }
+  .has-error{
+    .form-control{
+      border-color: $bg-primary-color;
+      &:focus{
+        border-color: $bg-primary-color;
+      }
+    }
+  }
+  .form-control {
+    &:focus{
+      box-shadow: none;
+      border: 1px solid #dddddd;
+    }
+  }
+  @include placeholder('.form-control', #c7c7c7);
+
 }
 
-.image-item img
-{
-    width: 100%;
+.loading {
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  margin: 20px auto 0 auto;
+
+  -webkit-animation: spinner 1s ease infinite;
+  -moz-animation: spinner 1s ease infinite;
+  animation: spinner 1s ease infinite;
+
+  border: 8px solid rgba(196, 196, 196, .75);
+  border-right-color: transparent;
+  border-radius: 50%;
 }
 
-.loading
-{
-    box-sizing: border-box;
-    width: 48px;
-    height: 48px;
-    margin: 20px auto 0 auto;
-
-    -webkit-animation: spinner 1s ease infinite;
-    -moz-animation: spinner 1s ease infinite;
-    animation: spinner 1s ease infinite;
-
-    border: 8px solid rgba(196, 196, 196, .75);
-    border-right-color: transparent;
-    border-radius: 50%;
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg)
+  }
 }
 
-@keyframes spinner
-{
-    from
-    {
-        transform: rotate(0deg);
-    }
-    to
-    {
-        transform: rotate(360deg)
-    }
+@-webkit-keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-@-webkit-keyframes spinner
-{
-    from
-    {
-        transform: rotate(0deg);
-    }
-    to
-    {
-        transform: rotate(360deg);
-    }
-}
-
-@-moz-keyframes spinner
-{
-    from
-    {
-        transform: rotate(0deg);
-    }
-    to
-    {
-        transform: rotate(360deg);
-    }
+@-moz-keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
