@@ -56,7 +56,7 @@ Go to: `http://localhost:8080`
 
 ## Building production
 ``` code
-npm run buid
+npm run build
 ```
 It generates static file `public/bundle.js`.
 
